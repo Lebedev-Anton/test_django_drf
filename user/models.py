@@ -1,7 +1,4 @@
-import jwt
-
-from settings.settings import SECRET_KEY
-from datetime import datetime, timedelta
+import os
 
 from django.db import models
 from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
@@ -72,3 +69,17 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.first_name
+
+
+def upload_file(instance, filename):
+    path = 'static/update/'
+    try:
+        os.remove(path + filename)
+    except FileNotFoundError:
+        pass
+    return path + filename
+
+
+class UserPhoto(models.Model):
+    photo = models.FileField(upload_to=upload_file, blank=True, null=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='photo')

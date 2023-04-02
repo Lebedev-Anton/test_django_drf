@@ -147,3 +147,9 @@ SIMPLE_JWT = {
 WEATHER_URL = os.environ.get('WEATHER_URL')
 
 WEATHER_API_KEY = os.environ.get('WEATHER_API_KEY')
+
+SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
+
+STATICFILES_DIRS = (
+    STATIC_URL,
+)

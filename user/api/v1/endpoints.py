@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework.views import APIView
-from user.serializers import UserSerializer
+from user.serializers import UserSerializer, UserPhotoSerializer
 from user.models import User
 
 
@@ -20,6 +20,14 @@ class UserAPIView(APIView):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            if 'photo' in request.data:
+                request.data.__setitem__('user', serializer.data.get('id'))
+                serializer_photo = UserPhotoSerializer(data=request.data)
+                if serializer_photo.is_valid():
+                    serializer_photo.save()
+                else:
+                    return Response(serializer_photo.errors, status.HTTP_400_BAD_REQUEST)
+
             return Response(serializer.data, status.HTTP_201_CREATED)
         return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 

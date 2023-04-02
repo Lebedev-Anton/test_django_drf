@@ -1,6 +1,17 @@
 from rest_framework import serializers
 
-from user.models import User
+from user.models import User, UserPhoto
+
+
+class UserPhotoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserPhoto
+        fields = ['user', 'photo']
+
+
+class TrackListingField(serializers.RelatedField):
+    def to_representation(self, value):
+        return 'http://127.0.0.1:8000/' + str(value.photo)
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -8,6 +19,7 @@ class UserSerializer(serializers.ModelSerializer):
         max_length=128,
         write_only=True
     )
+    photo = TrackListingField(read_only=True)
 
     def create(self, validated_data) -> User:
         user = User.objects.create_user(**validated_data)
@@ -21,5 +33,5 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'email', 'first_name', 'last_name', 'birthday', 'gender', 'password']
+        fields = ['id', 'email', 'first_name', 'last_name', 'birthday', 'gender', 'password', 'photo']
 
