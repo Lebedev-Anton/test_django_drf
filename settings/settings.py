@@ -138,3 +138,7 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainSlidingSerializer",
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
+
+
+WEATHER_URL = 'http://api.worldweatheronline.com/premium/v1/past-weather.ashx'
+WEATHER_API_KEY = '157b15a8eaaf4fa698e133659230204'
