@@ -31,8 +31,8 @@ class UserByIdAPIView(APIView):
         user = get_object_or_404(User, pk=user_id)
         for key, value in request.data.items():
             setattr(user, key, value)
-        serializer = UserSerializer(instance=user)
         user.save()
+        serializer = UserSerializer(instance=user)
         return Response(serializer.data, status.HTTP_201_CREATED)
 
     def delete(self, request: Request, user_id: int) -> Response:

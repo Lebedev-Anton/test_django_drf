@@ -1,13 +1,16 @@
+import os
 from datetime import timedelta
 
 from pathlib import Path
+from dotenv import load_dotenv
 
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-*rkxxx1p%s38i*%(9+8tkb7n%_6*roem)(5rhjlwg)fmfn$0)_'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', False) == 'True'
 
 ALLOWED_HOSTS = []
 
@@ -22,6 +25,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'corsheaders',
     'user.apps.UserConfig',
+    'weather.apps.WeatherConfig',
+    'infrastructure.apps.InfrastructureConfig',
 ]
 
 MIDDLEWARE = [
@@ -139,6 +144,6 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
 
+WEATHER_URL = os.environ.get('WEATHER_URL')
 
-WEATHER_URL = 'http://api.worldweatheronline.com/premium/v1/past-weather.ashx'
-WEATHER_API_KEY = '157b15a8eaaf4fa698e133659230204'
+WEATHER_API_KEY = os.environ.get('WEATHER_API_KEY')

@@ -16,9 +16,9 @@ def get_weather(request: Request, city: str, request_date: str) -> Response:
 
     response = weather.request_weather()
 
-    if 'status' in response:
+    if hasattr(response, 'status'):
         response_status = status.HTTP_400_BAD_REQUEST
     else:
         response_status = status.HTTP_200_OK
 
-    return Response(response, status=response_status)
+    return Response(response.dict(), status=response_status)

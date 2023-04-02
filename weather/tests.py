@@ -1,5 +1,5 @@
 from django.test import TestCase
-from weather.servises.weather import Weather
+from weather.servises.weather import Weather, WeatherScheme
 from settings.settings import WEATHER_API_KEY
 
 
@@ -9,9 +9,9 @@ class TestWeatherRequest(TestCase):
         weather = Weather('Moskwa', '2009-07-21')
         weather.validate_data()
         response = weather.request_weather()
-        self.assertTrue('city' in response)
-        self.assertTrue('request_date' in response)
-        self.assertTrue('weather' in response)
+        self.assertTrue(hasattr(response, 'city'))
+        self.assertTrue(hasattr(response, 'request_date'))
+        self.assertTrue(hasattr(response, 'weather'))
 
         weather = Weather('Moskwa', '2009-07-212')
         try:

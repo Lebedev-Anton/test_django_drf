@@ -6,3 +6,4 @@ Faker==18.3.2
 requests==2.28.2
 psutil==5.9.4
 pydantic==1.10.7
+python-dotenv==1.0.0

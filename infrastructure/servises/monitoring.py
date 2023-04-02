@@ -27,8 +27,8 @@ class FullMemoryScheme(BaseModel):
     inactive: int
     buffers: int
     cached: int
-    shared: str
-    slab: str
+    shared: int
+    slab: int
     verification_date: str
 
 
