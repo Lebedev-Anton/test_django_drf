@@ -9,6 +9,7 @@ class WeatherScheme(BaseModel):
     request_date: str
     weather: str
 
+
 class WeatherErrorScheme(BaseModel):
     status: str
     message: str

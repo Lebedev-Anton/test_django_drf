@@ -8,6 +8,11 @@ from weather.servises.weather import Weather
 
 @api_view(['GET'])
 def get_weather(request: Request, city: str, request_date: str) -> Response:
+    """
+    Запрос погоды.
+        - city - город, для которого нужно выполнить запрос (eng).
+        - request_date - дата, для которого нужно выполнить запрос (формат YYYY-MM-DD).
+    """
     weather = Weather(city=city, request_date=request_date)
     try:
         weather.validate_data()
