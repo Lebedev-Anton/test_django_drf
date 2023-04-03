@@ -1,5 +1,6 @@
 import os
 
+from PIL import Image
 from django.db import models
 from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
@@ -7,7 +8,7 @@ from django.contrib.auth.models import PermissionsMixin
 
 class UserManager(BaseUserManager):
 
-    def create_user(self, email: str, password: str, first_name: str, last_name: str, **kwargs):
+    def create_user(self, email: str, password: str, first_name: str, last_name: str, **kwargs) -> AbstractBaseUser:
         if not email:
             raise ValueError('The given email must be set')
 
@@ -21,7 +22,7 @@ class UserManager(BaseUserManager):
 
         return user
 
-    def create_superuser(self, email: str, password: str, first_name: str, last_name: str):
+    def create_superuser(self, email: str, password: str, first_name: str, last_name: str) -> AbstractBaseUser:
         if not email:
             raise ValueError('The given email must be set')
 
@@ -59,16 +60,16 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
 
-    def get_username(self):
+    def get_username(self) -> str:
         """Return the username for this User."""
         return self.get_full_name()
 
-    def get_full_name(self):
+    def get_full_name(self) -> str:
         full_name = "%s %s" % (self.first_name, self.last_name)
         return full_name.strip()
 
-    def get_short_name(self):
-        return self.first_name
+    def get_short_name(self) -> str:
+        return str(self.first_name)
 
 
 def upload_file(instance: models.Model, filename: str) -> str:
@@ -83,3 +84,10 @@ def upload_file(instance: models.Model, filename: str) -> str:
 class UserPhoto(models.Model):
     photo = models.FileField(upload_to=upload_file, blank=True, null=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='photo')
+
+    def save(self, *args, **kwargs) -> None:
+        super().save(*args, **kwargs)
+        if self.photo.name is not None:
+            img = Image.open(self.photo.path)
+            w, h = img.size
+            img.crop((0, 150, w, h-150)).save(self.photo.path)
