@@ -14,7 +14,7 @@ class UserOperationTest(TestCase):
             email='fake@mail.ru',
             first_name=fake.first_name(),
             last_name=fake.last_name(),
-            gender='male',
+            gender='m',
             password='12345678',
         )
         user.save()
@@ -42,7 +42,7 @@ class UserOperationTest(TestCase):
         user = User(**response.data[0])
 
         self.assertEqual(user.email, 'fake@mail.ru')
-        self.assertEqual(user.gender, 'male')
+        self.assertEqual(user.gender, 'm')
 
     def test_create_new_user(self):
         fake = Faker()

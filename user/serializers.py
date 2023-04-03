@@ -28,7 +28,7 @@ class UserSerializer(serializers.ModelSerializer):
     def to_representation(self, instance) -> OrderedDict:
         representation = super().to_representation(instance)
         try:
-            representation.__setitem__('photo', 'http://127.0.0.1:8000/' + instance.photo.photo.url)
+            representation.__setitem__('photo', 'http://127.0.0.1' + instance.photo.photo.url)
         except (ValueError, ObjectDoesNotExist):
             return representation
 
