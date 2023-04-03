@@ -162,6 +162,8 @@ WEATHER_API_KEY = os.environ.get('WEATHER_API_KEY')
 
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
+STATIC_ROOT = 'static'
+
 STATICFILES_DIRS = (
-    STATIC_URL,
+    os.path.dirname(os.path.realpath(__file__)),
 )
