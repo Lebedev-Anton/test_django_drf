@@ -1,5 +1,7 @@
 from django.test import TestCase
-from infrastructure.servises.monitoring import ProcessMemoryScheme, FullMemoryScheme
+
+from infrastructure.servises.monitoring import (FullMemoryScheme,
+                                                ProcessMemoryScheme)
 
 
 class TestMemoryMonitoring(TestCase):
@@ -15,4 +17,3 @@ class TestMemoryMonitoring(TestCase):
             'http://127.0.0.1:8000/api/v1/infrastructure/process/',
         )
         self.assertTrue(isinstance(ProcessMemoryScheme(**response.data), ProcessMemoryScheme))
-

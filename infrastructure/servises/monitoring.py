@@ -1,5 +1,6 @@
-import os
 import datetime
+import os
+
 import psutil
 from pydantic import BaseModel
 

@@ -1,5 +1,6 @@
-from copy import copy
 from collections import OrderedDict
+from copy import copy
+
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
 
@@ -9,7 +10,7 @@ from user.models import User, UserPhoto
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
         max_length=128,
-        write_only=True
+        write_only=True,
     )
     photo = serializers.FileField(required=False)
 

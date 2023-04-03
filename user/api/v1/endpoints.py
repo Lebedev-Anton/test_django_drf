@@ -1,14 +1,15 @@
 from django.shortcuts import get_object_or_404
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
 from rest_framework.request import Request
+from rest_framework.response import Response
 from rest_framework.views import APIView
-from user.serializers import UserSerializer
+
+from user.api.v1.schemas import errors, request_body, response
 from user.models import User
-from user.api.v1.schemas import request_body, response, errors
-from drf_yasg.utils import swagger_auto_schema
-from drf_yasg import openapi
+from user.serializers import UserSerializer
 
 
 class UserAPIView(APIView):
@@ -16,8 +17,8 @@ class UserAPIView(APIView):
 
     @swagger_auto_schema(
         responses={
-            200: openapi.Schema(type=openapi.TYPE_ARRAY, items=response)
-        }
+            200: openapi.Schema(type=openapi.TYPE_ARRAY, items=response),
+        },
     )
     def get(self, request: Request) -> Response:
         """Запрос информации о всех пользователях."""
@@ -30,7 +31,7 @@ class UserAPIView(APIView):
         responses={
             201: response,
             400: errors,
-        }
+        },
     )
     def post(self, request: Request) -> Response:
         """Регистрация пользователя."""
@@ -49,7 +50,7 @@ class UserByIdAPIView(APIView):
         responses={
             201: response,
             404: errors,
-        }
+        },
     )
     def put(self, request: Request, user_id: int) -> Response:
         user = get_object_or_404(User, pk=user_id)
@@ -64,7 +65,7 @@ class UserByIdAPIView(APIView):
         responses={
             201: response,
             404: errors,
-        }
+        },
     )
     def delete(self, request: Request, user_id: int) -> Response:
         user = get_object_or_404(User, pk=user_id)

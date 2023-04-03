@@ -1,6 +1,7 @@
 from django.test import TestCase
-from user.models import User
 from faker import Faker
+
+from user.models import User
 
 
 class UserOperationTest(TestCase):
@@ -25,7 +26,7 @@ class UserOperationTest(TestCase):
             data={
                 'email': 'fake@mail.ru',
                 'password': '12345678',
-            }
+            },
         )
 
         self.refresh_token = response.data.get('refresh')
@@ -35,8 +36,8 @@ class UserOperationTest(TestCase):
         response = self.client.get(
             'http://127.0.0.1:8000/api/v1/user/',
             **{
-                'HTTP_AUTHORIZATION': f'Bearer {self.access_token}'
-            }
+                'HTTP_AUTHORIZATION': f'Bearer {self.access_token}',
+            },
         )
 
         user = User(**response.data[0])
@@ -60,8 +61,8 @@ class UserOperationTest(TestCase):
                 'password': '12345678',
             },
             **{
-                'HTTP_AUTHORIZATION': f'Bearer {self.access_token}'
-            }
+                'HTTP_AUTHORIZATION': f'Bearer {self.access_token}',
+            },
         )
 
         user = User(**response.data)
@@ -85,8 +86,8 @@ class UserOperationTest(TestCase):
             },
             content_type='application/json',
             **{
-                'HTTP_AUTHORIZATION': f'Bearer {self.access_token}'
-            }
+                'HTTP_AUTHORIZATION': f'Bearer {self.access_token}',
+            },
         )
         user = User(**response.data)
 
@@ -101,8 +102,8 @@ class UserOperationTest(TestCase):
             },
             content_type='application/json',
             **{
-                'HTTP_AUTHORIZATION': f'Bearer {self.access_token}'
-            }
+                'HTTP_AUTHORIZATION': f'Bearer {self.access_token}',
+            },
         )
         user = User(**response.data)
         self.assertEqual(user.email, email)
@@ -116,8 +117,8 @@ class UserOperationTest(TestCase):
             },
             content_type='application/json',
             **{
-                'HTTP_AUTHORIZATION': f'Bearer {self.access_token}'
-            }
+                'HTTP_AUTHORIZATION': f'Bearer {self.access_token}',
+            },
         )
 
         self.assertEqual(response.status_code, 404)
@@ -126,16 +127,16 @@ class UserOperationTest(TestCase):
         response = self.client.delete(
             'http://127.0.0.1:8000/api/v1/user/2',
             **{
-                'HTTP_AUTHORIZATION': f'Bearer {self.access_token}'
-            }
+                'HTTP_AUTHORIZATION': f'Bearer {self.access_token}',
+            },
         )
         self.assertEqual(response.status_code, 404)
 
         response = self.client.delete(
             'http://127.0.0.1:8000/api/v1/user/1',
             **{
-                'HTTP_AUTHORIZATION': f'Bearer {self.access_token}'
-            }
+                'HTTP_AUTHORIZATION': f'Bearer {self.access_token}',
+            },
         )
 
         user = User(**response.data)

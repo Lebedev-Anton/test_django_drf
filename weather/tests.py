@@ -1,6 +1,7 @@
 from django.test import TestCase
-from weather.servises.weather import Weather, WeatherScheme
+
 from settings.settings import WEATHER_API_KEY
+from weather.servises.weather import Weather
 
 
 class TestWeatherRequest(TestCase):
@@ -27,7 +28,7 @@ class TestWeatherApi(TestCase):
             'http://127.0.0.1:8000/api/v1/weather/Moskwa/2009-07-21/',
             **{
                 'key': WEATHER_API_KEY,
-            }
+            },
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data.get('city'), 'Moskwa')
@@ -38,7 +39,7 @@ class TestWeatherApi(TestCase):
             'http://127.0.0.1:8000/api/v1/weather/Murom/2019-12-21/',
             **{
                 'key': WEATHER_API_KEY,
-            }
+            },
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data.get('city'), 'Murom')

@@ -1,7 +1,9 @@
-import requests
 import datetime
+
+import requests
 from pydantic import BaseModel
-from settings.settings import WEATHER_URL, WEATHER_API_KEY
+
+from settings.settings import WEATHER_API_KEY, WEATHER_URL
 
 
 class WeatherScheme(BaseModel):
@@ -27,7 +29,7 @@ class Weather:
         try:
             self.request_date = str(datetime.date.fromisoformat(self.request_date))
         except ValueError:
-            raise ValueError("Incorrect data format, should be YYYY-MM-DD")
+            raise ValueError('Incorrect data format, should be YYYY-MM-DD')
 
     def request_weather(self) -> WeatherScheme | WeatherErrorScheme:
         try:
@@ -37,21 +39,21 @@ class Weather:
                 **{
                     'status': 'error',
                     'message': 'Connection error - Weather service not answer',
-                }
+                },
             )
         except AssertionError:
             return WeatherErrorScheme(
                 **{
                     'status': 'error',
                     'message': 'Weather service not answer',
-                }
+                },
             )
         except (KeyError, IndexError):
             return WeatherErrorScheme(
                 **{
                     'status': 'error',
                     'message': 'Weather service return incorrect answer',
-                }
+                },
             )
 
     def _request_weather(self) -> WeatherScheme:
@@ -62,15 +64,15 @@ class Weather:
                 'q': self.city,
                 'date': self.request_date,
                 'format': 'json',
-            }
+            },
         )
 
         assert response.status_code == 200
 
         return WeatherScheme(
             **{
-            'city': self.city,
-            'request_date': self.request_date,
-            'weather': response.json().get('data').get('weather')[0].get('avgtempC'),
-            }
+                'city': self.city,
+                'request_date': self.request_date,
+                'weather': response.json().get('data').get('weather')[0].get('avgtempC'),
+            },
         )

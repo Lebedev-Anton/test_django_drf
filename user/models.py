@@ -1,9 +1,9 @@
 import os
 
-from PIL import Image
-from django.db import models
-from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
+from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
+from django.db import models
+from PIL import Image
 
 
 class UserManager(BaseUserManager):
@@ -65,7 +65,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.get_full_name()
 
     def get_full_name(self) -> str:
-        full_name = "%s %s" % (self.first_name, self.last_name)
+        full_name = '%s %s' % (self.first_name, self.last_name)
         return full_name.strip()
 
     def get_short_name(self) -> str:
@@ -74,6 +74,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 def upload_file(instance: models.Model, filename: str) -> str:
     path = 'static/update/'
+
     try:
         os.remove(path + filename)
     except FileNotFoundError:
@@ -90,4 +91,4 @@ class UserPhoto(models.Model):
         if self.photo.name is not None:
             img = Image.open(self.photo.path)
             w, h = img.size
-            img.crop((0, 150, w, h-150)).save(self.photo.path)
+            img.crop((0, 150, w, h - 150)).save(self.photo.path)
