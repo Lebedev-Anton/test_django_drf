@@ -71,7 +71,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.first_name
 
 
-def upload_file(instance, filename):
+def upload_file(instance: models.Model, filename: str) -> str:
     path = 'static/update/'
     try:
         os.remove(path + filename)

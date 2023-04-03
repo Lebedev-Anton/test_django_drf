@@ -1,6 +1,5 @@
 from django.test import TestCase
 from user.models import User
-from user.serializers import UserSerializer
 from faker import Faker
 
 
@@ -141,5 +140,3 @@ class UserOperationTest(TestCase):
 
         user = User(**response.data)
         self.assertEqual(user.pk, None)
-
-
